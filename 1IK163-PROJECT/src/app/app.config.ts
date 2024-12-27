@@ -1,9 +1,12 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { importProvidersFrom } from '@angular/core';
+import { AppRoutingModule } from './app-routing.module'; // Importera AppRoutingModule
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay())]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    importProvidersFrom(AppRoutingModule), // Lägg till routingmodulen
+    provideClientHydration(withEventReplay()),
+  ],
 };

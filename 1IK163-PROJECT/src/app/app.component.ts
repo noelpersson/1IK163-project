@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router'; // För routing
+import { HeaderComponent } from './shared/header/header.component'; // Standalone header
+import { FooterComponent } from './shared/footer/footer.component'; // Standalone footer
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true, // Om AppComponent också är standalone
+  imports: [
+    RouterOutlet, // Importera router-outlet
+    HeaderComponent, // Importera standalone HeaderComponent
+    FooterComponent, // Importera standalone FooterComponent
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = '1IK163-PROJECT';
-}
+export class AppComponent {}
