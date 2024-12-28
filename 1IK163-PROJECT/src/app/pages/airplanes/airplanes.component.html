@@ -1,0 +1,66 @@
+<div class="min-h-screen flex flex-col items-center bg-gray-100 py-8">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Dina favoritflygplan</h2>
+  
+    <!-- Lägg till nytt flygplan -->
+    <form (ngSubmit)="addFavoritePlane()" class="space-y-4 w-full max-w-md">
+      <div>
+        <label for="plane" class="block text-sm font-medium text-gray-700">Flygplansnamn</label>
+        <input
+          type="text"
+          id="plane"
+          [(ngModel)]="favoritePlane"
+          name="plane"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <button
+        type="submit"
+        class="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+      >
+        Lägg till flygplanet
+      </button>
+    </form>
+  
+    <!-- Lista över flygplan -->
+    <ul class="mt-6 space-y-2 w-full max-w-md">
+      <li *ngFor="let plane of planes" class="bg-white p-4 rounded-md shadow-md">
+        {{ plane.name }} (ID: {{ plane.id }})
+      </li>
+    </ul>
+  
+    <!-- Lägg till del till flygplan -->
+    <form (ngSubmit)="addPlanePart()" class="space-y-4 w-full max-w-md mt-8">
+      <div>
+        <label for="planeId" class="block text-sm font-medium text-gray-700">Flygplan ID</label>
+        <input
+          type="text"
+          id="planeId"
+          [(ngModel)]="planeIdForPart"
+          name="planeId"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+  
+      <div>
+        <label for="part" class="block text-sm font-medium text-gray-700">Flygplansdel</label>
+        <input
+          type="text"
+          id="part"
+          [(ngModel)]="partName"
+          name="part"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+  
+      <button
+        type="submit"
+        class="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700"
+      >
+        Lägg till del
+      </button>
+    </form>
+  </div>
+  

@@ -4,14 +4,13 @@ import { HeaderComponent } from './shared/header/header.component'; // Standalon
 import { FooterComponent } from './shared/footer/footer.component'; // Standalone footer
 
 @Component({
-  selector: 'app-root',
-  standalone: true, // Om AppComponent också är standalone
-  imports: [
-    RouterOutlet, // Importera router-outlet
-    HeaderComponent, // Importera standalone HeaderComponent
-    FooterComponent, // Importera standalone FooterComponent
-  ],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root', // Om AppComponent också är standalone
+    imports: [
+        RouterOutlet, // Importera router-outlet
+        HeaderComponent, // Importera standalone HeaderComponent
+        FooterComponent, // Importera standalone FooterComponent
+    ],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {}
