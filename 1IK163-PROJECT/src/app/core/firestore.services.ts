@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getFirestore, collection, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, updateDoc, addDoc, doc, deleteDoc } from 'firebase/firestore';
 import { firebaseApp } from './firebase.config';
 
 @Injectable({
@@ -38,14 +38,26 @@ export class FirestoreService {
     }
   }
 
-  // Lägger till delar kopplade till ett specifikt flygplan
-  async addPlanePart(planeId: string, partData: any) {
+  // Uppdaterar ett dokument i en specifik samling
+  async updateDocument(collectionName: string, documentId: string, updatedData: any): Promise<void> {
     try {
-      const partRef = doc(this.db, `favoritePlanes/${planeId}/parts/${partData.partName}`);
-      await setDoc(partRef, partData);
-      console.log(`Del '${partData.partName}' tillagd till flygplan ${planeId}`);
+      const docRef = doc(this.db, `${collectionName}/${documentId}`);
+      await updateDoc(docRef, updatedData);
+      console.log('Dokument uppdaterat:', documentId);
     } catch (error) {
-      console.error('Fel vid tillägg av flygplansdel:', error);
+      console.error('Fel vid uppdatering av dokument:', error);
+      throw error;
+    }
+  }
+
+  // Raderar ett dokument från en specifik samling
+  async deleteDocument(collectionName: string, documentId: string): Promise<void> {
+    try {
+      const docRef = doc(this.db, `${collectionName}/${documentId}`);
+      await deleteDoc(docRef);
+      console.log('Dokument raderat:', documentId);
+    } catch (error) {
+      console.error('Fel vid radering av dokument:', error);
       throw error;
     }
   }

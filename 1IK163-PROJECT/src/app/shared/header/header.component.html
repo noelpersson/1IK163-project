@@ -1,64 +1,93 @@
 <header class="backdrop-blur-lg bg-white/30 fixed w-full z-50 shadow-md">
-    <nav class="container mx-auto flex justify-between items-center p-4">
-      <!-- Logo -->
-      <a routerLink="/" class="text-2xl font-bold text-blue-600 hover:text-blue-800">
-        AirBus
-      </a>
-  
-      <!-- Navigation Links -->
-      <ul class="hidden md:flex space-x-6">
-        <li>
-          <a routerLink="/" routerLinkActive="text-blue-800 font-semibold" class="text-blue-600 hover:text-blue-800">
-            Home
-          </a>
-        </li>
-        <li>
-          <a routerLink="/about" routerLinkActive="text-blue-800 font-semibold" class="text-blue-600 hover:text-blue-800">
-            About
-          </a>
-        </li>
-        <li>
-          <a routerLink="/services" routerLinkActive="text-blue-800 font-semibold" class="text-blue-600 hover:text-blue-800">
-            Services
-          </a>
-        </li>
-        <li>
-          <a routerLink="/contact" routerLinkActive="text-blue-800 font-semibold" class="text-blue-600 hover:text-blue-800">
-            Contact
-          </a>
-        </li>
-      </ul>
-  
-      <!-- Mobile Menu Button -->
-      <button
-        class="md:hidden text-blue-600 hover:text-blue-800"
-        id="menu-toggle"
-        (click)="toggleMenu()"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-        </svg>
-      </button>
-    </nav>
-  
-    <!-- Mobile Menu -->
-    <div
-      class="md:hidden bg-white/30 backdrop-blur-lg p-4 space-y-4"
-      id="mobile-menu"
-      [ngClass]="{ 'hidden': !isMenuOpen }"
+  <nav class="container mx-auto flex justify-between items-center p-4">
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center">
+      <img src="https://nopedev.online/logo.svg" alt=" LoveAirplane Logo" class="h-10 mr-2">
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <ul class="hidden md:flex space-x-6">
+      <li>
+        <a routerLink="/" routerLinkActive="text-blue-800 font-semibold" class="text-black hover:text-blue-800">
+          Home
+        </a>
+      </li>
+      <li>
+        <a routerLink="/register" routerLinkActive="text-blue-800 font-semibold" class="text-black hover:text-blue-800">
+          Register
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="text-blue-800 font-semibold" class="text-black hover:text-blue-800">
+          dashboard
+        </a>
+      </li>
+      <li>
+        <a routerLink="/login" routerLinkActive="text-blue-800 font-semibold" class="text-black hover:text-blue-800">
+          login
+        </a>
+      </li>
+    </ul>
+
+    <!-- Desktop Login/Logout Button -->
+    <button
+      *ngIf="!isAuthenticated"
+      routerLink="/login"
+      (click)="login()"
+      class="hidden md:block text-white bg-green-500 hover:bg-green-600 py-2 px-4 rounded-md">
+      Logga in
+    </button>
+    <button
+      *ngIf="isAuthenticated"
+      (click)="logout()"
+      class="hidden md:block text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-md">
+      Logga ut
+    </button>
+
+    <!-- Mobile Menu Button -->
+    <button
+      class="md:hidden text-blue-600 hover:text-blue-800"
+      id="menu-toggle"
+      (click)="toggleMenu()"
     >
-      <a routerLink="/" routerLinkActive="text-blue-800 font-semibold" class="block text-blue-600 hover:text-blue-800">
-        Home
-      </a>
-      <a routerLink="/about" routerLinkActive="text-blue-800 font-semibold" class="block text-blue-600 hover:text-blue-800">
-        About
-      </a>
-      <a routerLink="/services" routerLinkActive="text-blue-800 font-semibold" class="block text-blue-600 hover:text-blue-800">
-        Services
-      </a>
-      <a routerLink="/contact" routerLinkActive="text-blue-800 font-semibold" class="block text-blue-600 hover:text-blue-800">
-        Contact
-      </a>
-    </div>
-  </header>
-  
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Navigation -->
+  <div
+    class="md:hidden bg-white/30 backdrop-blur-lg p-4 space-y-4"
+    id="mobile-menu"
+    [ngClass]="{ 'hidden': !isMenuOpen }"
+  >
+    <a routerLink="/" routerLinkActive="text-black font-semibold" class="block text-blue-600 hover:text-blue-800">
+      Home
+    </a>
+    <a routerLink="/register" routerLinkActive="text-black font-semibold" class="block text-blue-600 hover:text-blue-800">
+      Register
+    </a>
+    <a routerLink="/dashboard" routerLinkActive="text-black font-semibold" class="block text-blue-600 hover:text-blue-800">
+      dashboard
+    </a>
+    <a routerLink="/login" routerLinkActive="text-black font-semibold" class="block text-blue-600 hover:text-blue-800">
+      login
+    </a>
+
+    <!-- Mobile Login/Logout Button -->
+    <button
+      *ngIf="!isAuthenticated"
+      routerLink="/login"
+      (click)="login()"
+      class="block w-full text-center text-white bg-green-500 hover:bg-green-600 py-2 px-4 rounded-md">
+      Logga in
+    </button>
+    <button
+      *ngIf="isAuthenticated"
+      (click)="logout()"
+      class="block w-full text-center text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-md">
+      Logga ut
+    </button>
+  </div>
+</header>

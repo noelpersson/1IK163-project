@@ -1,2 +1,86 @@
-<h1>Välkommen till startsidan!</h1>
-<p>Detta är HomeComponnt.</p>
+<div class="min-h-screen bg-gray-100">
+    <!-- Hero Section -->
+    <div class="relative bg-blue-600 text-white">
+      <div
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://nopedev.online/sas-hero%20(2).jpg');"
+      ></div>
+      <div class="relative h-screen flex flex-col justify-center items-center text-center px-4">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Välkommen till LoveAirplane</h1>
+        <p class="text-lg md:text-2xl mb-8">
+          Din plats för att utforska och dela din kärlek till flygplan.
+        </p>
+        <a
+          routerLink="/register"
+          class="px-6 py-3 bg-blue-600 rounded-lg hover:animate-bounce text-lg hover:bg-blue-500 transition"
+        >
+          Kom igång nu
+        </a>
+      </div>
+    </div>
+  
+    <!-- Introduktion -->
+    <div class="py-16 bg-white">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Varför använda LoveAirplane?</h2>
+        <p class="text-gray-600 text-lg leading-7 mb-6">
+          Vi skapar en gemenskap för flygplansentusiaster. Här kan du dela dina
+          favoritflygplan, lära dig mer om varför ett flygplan är deras favorit!.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+          <!-- Fördelar -->
+          <div class="flex flex-col items-center bg-gray-50 p-6 rounded-lg shadow-md">
+            <img
+              src="https://nopedev.online/airplane2.jpeg"
+              alt="Fördel 1"
+              class="h-20 mb-4"
+            />
+            <h3 class="text-xl font-semibold mb-2">Dela din passion</h3>
+            <p class="text-gray-600">
+              Lägg till dina favoritflygplan och berätta för andra varför du älskar
+              dem.
+            </p>
+          </div>
+          <div class="flex flex-col items-center bg-gray-50 p-6 rounded-lg shadow-md">
+            <img
+              src="https://nopedev.online/boeing.jpg"
+              alt="Fördel 2"
+              class="h-20 mb-4"
+            />
+            <h3 class="text-xl font-semibold mb-2">Utforska nya flygplan</h3>
+            <p class="text-gray-600">
+              Upptäck flygplan du kanske inte kände till och lär dig mer om dem.
+            </p>
+          </div>
+          <div class="flex flex-col items-center bg-gray-50 p-6 rounded-lg shadow-md">
+            <img
+              src="https://nopedev.online/airplane3.jpeg"
+              alt="Fördel 3"
+              class="h-20 mb-4"
+            />
+            <h3 class="text-xl font-semibold mb-2">Ha kul!</h3>
+            <p class="text-gray-600">
+              Ha kul med vår plattform.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Call to Action -->
+    <div class="bg-blue-200 text-black py-12">
+      <div class="container mx-auto text-center px-6">
+        <h2 class="text-3xl font-bold mb-4">Redo att börja?</h2>
+        <p class="text-lg mb-6">
+          Skapa ett konto och börja dela dina favoritflygplan med världen idag!
+        </p>
+        <a
+          routerLink="/register"
+          class="px-6 py-3 text-white hover:animate-pulse bg-blue-500 rounded-lg text-lg hover:bg-blue-800 transition"
+        >
+          Skapa konto
+        </a>
+      </div>
+    </div>
+  </div>
+  

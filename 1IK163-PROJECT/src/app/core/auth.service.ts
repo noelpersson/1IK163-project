@@ -8,19 +8,25 @@ import {
   setPersistence,
   browserLocalPersistence,
 } from 'firebase/auth';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private currentUser: User | null = null;
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
 
   constructor() {
-    // Lyssna på autentiseringsstatus
+    // Lyssna på autentiseringsstatus och uppdatera BehaviorSubject
     auth.onAuthStateChanged((user) => {
-      this.currentUser = user;
+      this.currentUserSubject.next(user);
       console.log('Användaren är:', user);
     });
+  }
+
+  // Observable för autentiseringstillstånd
+  get authState(): Observable<User | null> {
+    return this.currentUserSubject.asObservable();
   }
 
   // Registrera användare
@@ -46,6 +52,6 @@ export class AuthService {
 
   // Hämta aktuell användare
   getCurrentUser(): User | null {
-    return this.currentUser;
+    return this.currentUserSubject.value;
   }
 }

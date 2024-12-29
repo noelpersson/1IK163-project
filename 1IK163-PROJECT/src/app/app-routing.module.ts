@@ -12,8 +12,9 @@ const routes: Routes = [
   { path: 'about', loadComponent: () => import('./pages/about/about.component').then(m => m.AboutComponent) },
   { path: 'login', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
   { path: 'register', loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent) },
-  { path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard] },
+  { path: 'protected', loadComponent: () => import('./pages/protected/protected.component').then(m => m.ProtectedComponent), canActivate: [AuthGuard] },
   { path: 'airplanes', loadComponent: () => import('./pages/airplanes/airplanes.component').then(m => m.AirplanesComponent) },
+  { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent) },
 ];
 
 @NgModule({

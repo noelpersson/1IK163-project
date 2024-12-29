@@ -22,7 +22,7 @@ export class LoginComponent {
   async onLogin() {
     try {
       await this.authService.login(this.email, this.password);
-      this.router.navigate(['/airplanes']); 
+      this.router.navigate(['/dashboard']); 
     } catch (error: any) {
       if (error.code === 'auth/user-not-found') {
         this.errorMessage = 'Användaren finns inte. Kontrollera din e-postadress.';

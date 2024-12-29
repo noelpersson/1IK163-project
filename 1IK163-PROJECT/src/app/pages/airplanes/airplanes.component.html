@@ -1,10 +1,19 @@
 <div class="min-h-screen flex flex-col items-center bg-gray-100 py-8">
     <h2 class="text-2xl font-bold mb-4 text-gray-800">Dina favoritflygplan</h2>
-  
-    <!-- Lägg till nytt flygplan -->
-    <form (ngSubmit)="addFavoritePlane()" class="space-y-4 w-full max-w-md">
+
+     <!-- Visa felmeddelande -->
+    <div *ngIf="errorMessage" class="bg-red-500 text-white p-3 rounded-md mb-4 w-full max-w-md">
+        {{ errorMessage }}
+    </div>
+    <!-- Formulär för att lägga till eller redigera ett flygplan -->
+     <h3 class="font-bold text-lg text-black">Använd formuläret nedan för att ange ditt favoritflygplan</h3>
+     <p class="py-4">Vill du redigera ett redan befintligt bidrag behöver du klicka på redigera knappen.</p>
+    <form
+      (ngSubmit)="isEditing ? updateFavoritePlane() : addFavoritePlane()"
+      class="space-y-4 w-full max-w-md"
+    >
       <div>
-        <label for="plane" class="block text-sm font-medium text-gray-700">Flygplansnamn</label>
+        <label for="plane" class="block text-sm font-medium text-gray-700">Flygplansmodell</label>
         <input
           type="text"
           id="plane"
@@ -14,53 +23,57 @@
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
+  
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700">Varför är detta din favorit?</label>
+        <textarea
+          id="description"
+          [(ngModel)]="description"
+          name="description"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+        ></textarea>
+      </div>
+  
       <button
         type="submit"
         class="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
       >
-        Lägg till flygplanet
+        {{ isEditing ? 'Uppdatera flygplan' : 'Lägg till flygplan' }}
       </button>
-    </form>
-  
-    <!-- Lista över flygplan -->
-    <ul class="mt-6 space-y-2 w-full max-w-md">
-      <li *ngFor="let plane of planes" class="bg-white p-4 rounded-md shadow-md">
-        {{ plane.name }} (ID: {{ plane.id }})
-      </li>
-    </ul>
-  
-    <!-- Lägg till del till flygplan -->
-    <form (ngSubmit)="addPlanePart()" class="space-y-4 w-full max-w-md mt-8">
-      <div>
-        <label for="planeId" class="block text-sm font-medium text-gray-700">Flygplan ID</label>
-        <input
-          type="text"
-          id="planeId"
-          [(ngModel)]="planeIdForPart"
-          name="planeId"
-          required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-  
-      <div>
-        <label for="part" class="block text-sm font-medium text-gray-700">Flygplansdel</label>
-        <input
-          type="text"
-          id="part"
-          [(ngModel)]="partName"
-          name="part"
-          required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
   
       <button
-        type="submit"
-        class="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700"
+        *ngIf="isEditing"
+        type="button"
+        (click)="cancelEditing()"
+        class="w-full py-2 px-4 bg-gray-400 text-white rounded-md hover:bg-gray-500 mt-2"
       >
-        Lägg till del
+        Avbryt
       </button>
     </form>
+  
+    <!-- Lista över favoritflygplan -->
+    <ul class="mt-6 space-y-2 w-full max-w-md">
+      <li *ngFor="let plane of planes" class="bg-white p-4 rounded-md shadow-md">
+        <h3 class="font-bold text-lg">{{ plane.name }}</h3>
+        <p class="text-sm text-gray-600">{{ plane.description }}</p>
+  
+        <!-- Redigera-knapp -->
+        <button
+          (click)="startEditing(plane)"
+          class="mt-2 py-2 mr-3 px-4 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+        >
+          Redigera
+        </button>
+  
+        <!-- Radera-knapp -->
+        <button
+          (click)="deletePlane(plane.id)"
+          class="mt-2 py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600"
+        >
+          Radera
+        </button>
+      </li>
+    </ul>
   </div>
   
