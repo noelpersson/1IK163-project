@@ -1,62 +1,89 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Skapa ett konto</h2>
-  
-      <form (ngSubmit)="onRegister()" class="space-y-4">
-        <div *ngIf="errorMessage" class="text-red-500 text-sm font-medium">
-          {{ errorMessage }}
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Skapa ett konto</h2>
+
+    <form (ngSubmit)="onRegister()" class="space-y-4">
+      <div *ngIf="errorMessage" class="text-red-500 text-sm font-medium">
+        {{ errorMessage }}
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">E-postadress</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          #emailField="ngModel"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+        />
+        <div *ngIf="emailField.invalid && emailField.touched" class="text-red-500 text-sm">
+          Ogiltig e-postadress.
         </div>
-  
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">E-postadress</label>
-          <input
-            type="email"
-            id="email"
-            [(ngModel)]="email"
-            name="email"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-          />
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Lösenord</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          (input)="validatePassword()"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+        />
+        <div class="mt-2 space-y-1 text-sm">
+          <div class="flex items-center" [ngClass]="{'text-green-500': isLengthValid, 'text-red-500': !isLengthValid}">
+            <span class="material-icons" [ngClass]="{'animate-bounce': isLengthValid}">check_circle</span>
+            <span class="ml-2">Minst 8 tecken</span>
+          </div>
+          <div class="flex items-center" [ngClass]="{'text-green-500': hasUpperCase, 'text-red-500': !hasUpperCase}">
+            <span class="material-icons" [ngClass]="{'animate-bounce': hasUpperCase}">check_circle</span>
+            <span class="ml-2">Minst en stor bokstav</span>
+          </div>
+          <div class="flex items-center" [ngClass]="{'text-green-500': hasLowerCase, 'text-red-500': !hasLowerCase}">
+            <span class="material-icons" [ngClass]="{'animate-bounce': hasLowerCase}">check_circle</span>
+            <span class="ml-2">Minst en liten bokstav</span>
+          </div>
+          <div class="flex items-center" [ngClass]="{'text-green-500': hasSpecialChar, 'text-red-500': !hasSpecialChar}">
+            <span class="material-icons" [ngClass]="{'animate-bounce': hasSpecialChar}">check_circle</span>
+            <span class="ml-2">Minst ett specialtecken</span>
+          </div>
+          <div class="flex items-center" [ngClass]="{'text-green-500': hasNumber, 'text-red-500': !hasNumber}">
+            <span class="material-icons" [ngClass]="{'animate-bounce': hasNumber}">check_circle</span>
+            <span class="ml-2">Minst en siffra</span>
+          </div>
         </div>
-  
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Lösenord</label>
-          <input
-            type="password"
-            id="password"
-            [(ngModel)]="password"
-            name="password"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        </div>
-  
-        <div>
-          <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Bekräfta lösenord</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            [(ngModel)]="confirmPassword"
-            name="confirmPassword"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        </div>
-  
-        <div>
-          <button
-            type="submit"
-            class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            Registrera
-          </button>
-        </div>
-      </form>
-  
-      <p class="mt-4 text-center text-sm text-gray-600">
-        Har du redan ett konto?
-        <a href="/login" class="text-indigo-600 hover:text-indigo-500">Logga in här</a>
-      </p>
-    </div>
+      </div>
+
+      <div>
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Bekräfta lösenord</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+        />
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          [disabled]="!isPasswordValid"
+          class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          Registrera
+        </button>
+      </div>
+    </form>
+
+    <p class="mt-4 text-center text-sm text-gray-600">
+      Har du redan ett konto?
+      <a href="/login" class="text-indigo-600 hover:text-indigo-500">Logga in här</a>
+    </p>
   </div>
-  
+</div>

@@ -17,7 +17,28 @@ export class RegisterComponent {
   confirmPassword: string = '';
   errorMessage: string = '';
 
+  isLengthValid: boolean = false;
+  hasUpperCase: boolean = false;
+  hasLowerCase: boolean = false;
+  hasSpecialChar: boolean = false;
+  hasNumber: boolean = false;
+  isPasswordValid: boolean = false;
+  
+
+
   constructor(private authService: AuthService, private router: Router) {}
+
+  validatePassword() {
+    const specialCharPattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    this.isLengthValid = this.password.length >= 8;
+    this.hasUpperCase = /[A-Z]/.test(this.password);
+    this.hasLowerCase = /[a-z]/.test(this.password);
+    this.hasSpecialChar = specialCharPattern.test(this.password);
+    this.hasNumber = /[0-9]/.test(this.password);
+
+
+
+  }
 
   async onRegister() {
     if (this.password !== this.confirmPassword) {
