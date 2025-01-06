@@ -2,7 +2,7 @@
   <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Skapa ett konto</h2>
 
-    <form (ngSubmit)="onRegister()" class="space-y-4">
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="space-y-4">
       <div *ngIf="errorMessage" class="text-red-500 text-sm font-medium">
         {{ errorMessage }}
       </div>
@@ -19,7 +19,8 @@
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
         <div *ngIf="emailField.invalid && emailField.touched" class="text-red-500 text-sm">
-          Ogiltig e-postadress.
+          <span *ngIf="emailField.errors?.['required']">E-postadress är obligatorisk.</span>
+          <span *ngIf="emailField.errors?.['email']">Ogiltig e-postadress.</span>
         </div>
       </div>
 
@@ -73,7 +74,6 @@
       <div>
         <button
           type="submit"
-          [disabled]="!isPasswordValid"
           class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           Registrera
@@ -83,7 +83,7 @@
 
     <p class="mt-4 text-center text-sm text-gray-600">
       Har du redan ett konto?
-      <a href="/login" class="text-indigo-600 hover:text-indigo-500">Logga in här</a>
+      <a href="/login" class="text-blue-600 hover:text-blue-700">Logga in här</a>
     </p>
   </div>
 </div>

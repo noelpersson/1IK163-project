@@ -9,48 +9,68 @@
      <h3 class="font-bold text-lg text-black">Använd formuläret nedan för att ange ditt favoritflygplan</h3>
      <p class="py-4">Vill du redigera ett redan befintligt bidrag behöver du klicka på redigera knappen.</p>
     <form
-      (ngSubmit)="isEditing ? updateFavoritePlane() : addFavoritePlane()"
-      class="space-y-4 w-full max-w-md"
-    >
-      <div>
-        <label for="plane" class="block text-sm font-medium text-gray-700">Flygplansmodell</label>
-        <input
-          type="text"
-          id="plane"
-          [(ngModel)]="favoritePlane"
-          name="plane"
-          required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-  
-      <div>
-        <label for="description" class="block text-sm font-medium text-gray-700">Varför är detta din favorit?</label>
-        <textarea
-          id="description"
-          [(ngModel)]="description"
-          name="description"
-          required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-        ></textarea>
-      </div>
-  
-      <button
-        type="submit"
-        class="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-      >
-        {{ isEditing ? 'Uppdatera flygplan' : 'Lägg till flygplan' }}
-      </button>
-  
-      <button
-        *ngIf="isEditing"
-        type="button"
-        (click)="cancelEditing()"
-        class="w-full py-2 px-4 bg-gray-400 text-white rounded-md hover:bg-gray-500 mt-2"
-      >
-        Avbryt
-      </button>
-    </form>
+  (ngSubmit)="isEditing ? updateFavoritePlane() : addFavoritePlane()"
+  #planeForm="ngForm"
+  class="space-y-4 w-full max-w-md"
+>
+  <div>
+    <label for="plane" class="block text-sm font-medium text-gray-700">Flygplansmodell</label>
+    <input
+      type="text"
+      id="plane"
+      [(ngModel)]="favoritePlane"
+      name="plane"
+      required
+      minlength="2"
+      maxlength="150"
+      class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+      #planeModel="ngModel"
+    />
+    <div *ngIf="planeModel.invalid && planeModel.touched" class="text-red-500 text-sm">
+      <span *ngIf="planeModel.errors?.['required']">Flygplansmodellen är obligatorisk.</span>
+      <span *ngIf="planeModel.errors?.['minlength']">Flygplansmodellen måste vara minst 2 tecken.</span>
+      <span *ngIf="planeModel.errors?.['maxlength']">Flygplansmodellen får inte vara längre än 150 tecken.</span>
+    </div>
+  </div>
+
+  <div>
+    <label for="description" class="block text-sm font-medium text-gray-700">Varför är detta din favorit?</label>
+    <textarea
+      id="description"
+      [(ngModel)]="description"
+      name="description"
+      required
+      minlength="2"
+      maxlength="500"
+      class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+      #descriptionModel="ngModel"
+    ></textarea>
+    <div *ngIf="descriptionModel.invalid && descriptionModel.touched" class="text-red-500 text-sm">
+      <span *ngIf="descriptionModel.errors?.['required']">Beskrivningen är obligatorisk.</span>
+      <span *ngIf="descriptionModel.errors?.['minlength']">Beskrivningen måste vara minst 2 tecken.</span>
+      <span *ngIf="descriptionModel.errors?.['maxlength']">Beskrivningen får inte vara längre än 500 tecken.</span>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="planeForm?.invalid || !planeForm?.touched"
+    class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    {{ isEditing ? 'Uppdatera flygplan' : 'Lägg till flygplan' }}
+  </button>
+
+
+  <button
+    *ngIf="isEditing"
+    type="button"
+    (click)="cancelEditing()"
+    class="w-full py-2 px-4 bg-gray-400 text-white rounded-md hover:bg-gray-500 mt-2"
+  >
+    Avbryt
+  </button>
+</form>
+
   
     <!-- Lista över favoritflygplan -->
     <ul class="mt-6 space-y-2 w-full max-w-md">

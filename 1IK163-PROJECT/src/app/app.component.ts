@@ -4,7 +4,7 @@ import { HeaderComponent } from './shared/header/header.component'; // Standalon
 import { FooterComponent } from './shared/footer/footer.component'; // Standalone footer
 
 @Component({
-    selector: 'app-root', // Om AppComponent också är standalone
+    selector: 'app-root', 
     imports: [
         RouterOutlet, // Importera router-outlet
         HeaderComponent, // Importera standalone HeaderComponent

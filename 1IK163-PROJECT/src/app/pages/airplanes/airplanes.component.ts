@@ -39,34 +39,43 @@ export class AirplanesComponent implements OnInit {
     });
   }
 
-  // Lägg till ett nytt favoritflygplan
   async addFavoritePlane() {
-    if (this.favoritePlane.trim() && this.description.trim()) {
-      this.errorMessage = ''; // Återställ tidigare felmeddelande
-      if (this.isAuthenticated) {
-        try {
-          const planeData = {
-            name: this.favoritePlane,
-            description: this.description,
-            addedAt: new Date(),
-          };
+    if (!this.isAuthenticated) {
+      this.errorMessage = 'Du måste vara inloggad för att lägga till ett favoritflygplan.';
+      return;
+    }
+    if (!this.favoritePlane || this.favoritePlane.trim().length < 2 || !this.description || this.description.trim().length < 10) {
+      this.errorMessage = 'Alla fält måste fyllas i korrekt.';
+      return;
+    }
+    if (!this.favoritePlane || this.favoritePlane.trim().length < 2) {
+      this.errorMessage = 'Flygplansnamnet måste innehålla minst 2 tecken.';
+      return;
+    }
+    if (!this.description || this.description.trim().length < 10) {
+      this.errorMessage = 'Beskrivningen måste innehålla minst 10 tecken.';
+      return;
+    }
 
-          const documentId = await this.firestoreService.addDocument('favoritePlanes', planeData);
-          this.planes.push({ id: documentId, name: this.favoritePlane, description: this.description });
+    this.errorMessage = ''; // Återställ tidigare felmeddelande
 
-          // Återställ fälten
-          this.favoritePlane = '';
-          this.description = '';
-        } catch (error) {
-          console.error('Kunde inte lägga till flygplan:', error);
-        }
-      }
-    } else {
-      this.errorMessage = 'Alla fält måste fyllas i.';
+    try {
+      const planeData = {
+        name: this.favoritePlane,
+        description: this.description,
+        addedAt: new Date(),
+      };
+
+      const documentId = await this.firestoreService.addDocument('favoritePlanes', planeData);
+      this.planes.push({ id: documentId, name: this.favoritePlane, description: this.description });
+
+      this.favoritePlane = '';
+      this.description = '';
+    } catch (error) {
+      console.error('Kunde inte lägga till flygplan:', error);
     }
   }
 
-  // Starta redigering av ett flygplan
   startEditing(plane: { id: string; name: string; description: string }) {
     this.isEditing = true;
     this.editingPlaneId = plane.id;
@@ -74,7 +83,6 @@ export class AirplanesComponent implements OnInit {
     this.description = plane.description;
   }
 
-  // Uppdatera ett favoritflygplan
   async updateFavoritePlane() {
     if (this.favoritePlane.trim() && this.description.trim()) {
       this.errorMessage = ''; // Återställ tidigare felmeddelande
@@ -103,7 +111,6 @@ export class AirplanesComponent implements OnInit {
     }
   }
 
-  // Avbryt redigering
   cancelEditing() {
     this.isEditing = false;
     this.editingPlaneId = null;
@@ -112,7 +119,6 @@ export class AirplanesComponent implements OnInit {
     this.errorMessage = ''; // Återställ felmeddelandet
   }
 
-  // Radera ett flygplan
   async deletePlane(planeId: string) {
     if (this.isAuthenticated) {
       try {
@@ -125,7 +131,6 @@ export class AirplanesComponent implements OnInit {
     }
   }
 
-  // Hämta favoritflygplan från Firestore
   async fetchFavoritePlanes() {
     if (this.isAuthenticated) {
       try {

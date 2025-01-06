@@ -3,6 +3,8 @@ import { AuthService } from '../../core/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { SucessDialogComponent } from '../../sucess-dialog/sucess-dialog.component';
 
 @Component({
   selector: 'app-register',
@@ -23,10 +25,10 @@ export class RegisterComponent {
   hasSpecialChar: boolean = false;
   hasNumber: boolean = false;
   isPasswordValid: boolean = false;
-  
 
 
-  constructor(private authService: AuthService, private router: Router) {}
+
+  constructor(private dialog: MatDialog, private authService: AuthService, private router: Router) {}
 
   validatePassword() {
     const specialCharPattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
@@ -45,17 +47,27 @@ export class RegisterComponent {
       this.errorMessage = 'Lösenorden matchar inte.';
       return;
     }
-
-  try {
-    await this.authService.register(this.email, this.password);
-    alert('Registrering lyckades! Du kommer nu omdirrigeras till inloggningssidan.');
-    this.router.navigate(['/login']);
-  } catch (error: any) {
-    if (error.code === 'auth/email-already-in-use') {
-      this.errorMessage = 'E-postadressen är redan registrerad.';
-    } else {
-      this.errorMessage = 'Registrering misslyckades. Försök igen senare.';
+    if (!this.email || !this.email.includes('@')) {
+      this.errorMessage = 'Ange en giltig e-postadress.';
+      return;
     }
-  }
+    
+  
+    try {
+      await this.authService.register(this.email, this.password);
+  
+      // Öppna en dialog för att visa bekräftelse
+      const dialogRef = this.dialog.open(SucessDialogComponent, {
+        width: '400px',
+        data: { message: 'Registrering lyckades! Du kan nu logga in.' }, // Skicka med data till dialogen
+      });
+  
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        this.errorMessage = 'E-postadressen är redan registrerad.';
+      } else {
+        this.errorMessage = 'Registrering misslyckades. Försök igen senare.';
+      }
+    }
   }
 }
