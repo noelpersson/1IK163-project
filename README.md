@@ -1,6 +1,10 @@
 
 # Development of Web Based Applications (1ik163), Fall Term 2024
 
+## About
+
+University: Linnaeus University
+
 ## Purpose:
 The purpose of this project
 is to demonstrate your skills and knowledge on back-end technologies and concepts by developing a
